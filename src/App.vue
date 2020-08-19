@@ -5,6 +5,8 @@
     <OnOff />
     <ButtonIncrement />
     <Option />
+    <TextInput />
+    <ToDos />
   </div>
 </template>
 
@@ -13,6 +15,8 @@ import HelloWorld from './components/HelloWorld.vue'
 import OnOff from './components/OnOff.vue'
 import ButtonIncrement from './components/ButtonIncrement.vue'
 import Option from './components/Option.vue'
+import TextInput from './components/TextInput.vue'
+import ToDos from './components/ToDos.vue'
 
 export default {
   name: 'App',
@@ -20,7 +24,9 @@ export default {
     HelloWorld,
     OnOff,
     ButtonIncrement,
-    Option
+    Option,
+    TextInput,
+    ToDos
   }
 }
 </script>
