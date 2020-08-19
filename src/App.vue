@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <OnOff />
+    <ButtonIncrement />
+    <Option />
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import OnOff from './components/OnOff.vue'
+import ButtonIncrement from './components/ButtonIncrement.vue'
+import Option from './components/Option.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    OnOff,
+    ButtonIncrement,
+    Option
   }
 }
 </script>
