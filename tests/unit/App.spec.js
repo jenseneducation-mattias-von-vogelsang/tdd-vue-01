@@ -1,6 +1,6 @@
 import {
   shallowMount,
-  mount
+  mount,
 } from '@vue/test-utils';
 import HelloWorld from '@/components/HelloWorld.vue';
 import OnOff from '@/components/OnOff.vue';
@@ -128,42 +128,59 @@ test('on input change the first letter shall become capital once input is comple
 import ToDos from '@/components/ToDos.vue';
 
 test('check if item gets sent to index 0 when we click the button', async () => {
-  //Arrance
-  // const {
-  //   getByText
-  // } = render(ToDos);
   let wrapper = shallowMount(ToDos);
 
-  //Act
+  //Bind input element via wrapper.find()
   const input = wrapper.find('input');
-  const button = wrapper.find('#ost');
-  // const input = wrapper.find('input');
+  //Give value to input element
   input.element.value = 'hejhopp';
+
+  //Test so that input has value
   expect(input.element.value).toContain('hejhopp');
 
-  await button.trigger('click');
-  // let item = wrapper.find('#hejhoppli');
+  //Trigger input event, wait for update then trigger button to add ToDo
+  await input.trigger('input');
+  await wrapper.vm.$nextTick();
+  await wrapper.find('#addToDo').trigger('click');
 
-  expect(wrapper.vm.items).toEqual(["hejhopp"]);
+  //Test so that the item array has new item ('hejhopp')
+  expect(wrapper.vm.items).toContain('hejhopp');
 
-  // input.element.value = 'secondboi';
-  // expect(input.element.value).toContain('secondboi');
+  //Find new ToDO which was added to the dom via v-for
+  let item = wrapper.find('#hejhoppli');
+  //Test so it contains our input from start
+  expect(item.text()).toContain('hejhopp');
 
-  // await wrapper.find('#ost').trigger('click');
+  //Give value to input element
+  input.element.value = 'secondboi';
+  //Test so that input has value
+  expect(input.element.value).toContain('secondboi');
 
-  // const liArray = wrapper.findAll('li');
-  // const firstLi = liArray.at(0);
+  //Trigger input event, wait for update then trigger button to add ToDo
+  await input.trigger('input');
+  await wrapper.vm.$nextTick();
+  await wrapper.find('#addToDo').trigger('click');
 
-  // expect(item.text()).toContain('hejhopp');
-  // expect(firstLi.is('li')).toBe(true);
+  //Find all li elements and put in array
+  const liArray = wrapper.findAll('li');
+  const firstLi = liArray.at(0);
 
-  // const moveLiBtn = wrapper.find('#secondboi');
-  // const secondboiLi = wrapper.find('#secondboili')
-  // expect(secondboiLi.exists()).toBe(true);
-  // moveLiBtn.trigger('click');
+  //Test that our first item we added is at index 0
+  expect(firstLi.is('#hejhoppli')).toBe(true);
 
-  // const liArray2 = wrapper.findAll('li');
-  // const firstLi2 = liArray2.at(0);
-  // expect(firstLi2.text()).toContain('secondboi');
-  //Assert
+  //Find the move up todo button to test if it works (puts item at index 0)
+  const moveLiBtn = wrapper.find('#secondboi');
+  //Find the other toDo we added to double-check that it exists in the dom
+  const secondboiLi = wrapper.find('#secondboili')
+  //Test it
+  expect(secondboiLi.exists()).toBe(true);
+
+  //Trigger the move up todo button
+  await moveLiBtn.trigger('click');
+
+  //Find all Lis again in new array
+  const liArrayTestTwo = wrapper.findAll('li');
+  const firstLiTestTwo = liArrayTestTwo.at(0);
+  //The todo we moved up is now the first one.
+  expect(firstLiTestTwo.is('#secondboili')).toBe(true);
 })
